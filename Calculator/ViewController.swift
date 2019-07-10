@@ -14,6 +14,16 @@ class ViewController: UIViewController {
     
     private var isFinishedTyping = true
     
+    private var numLabelValue : Double{
+        get {
+            guard let number = Double(numberLabel.text!) else { fatalError("Invalid characters in label.") }
+            return number
+        }
+        set {
+            numberLabel.text = String(newValue)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -22,17 +32,15 @@ class ViewController: UIViewController {
     @IBAction func functionPressed(_ sender: UIButton) {
         
         isFinishedTyping = true
-        
-        guard let number = Double(numberLabel.text!) else { fatalError("Invalid characters in label.") }
-        
+
         if sender.currentTitle == "AC" {
             numberLabel.text = "0"
         }
         else if sender.currentTitle == "+/−" {
-            numberLabel.text = String(number * -1)
+            numLabelValue = numLabelValue * -1
         }
         else if sender.currentTitle == "%" {
-            numberLabel.text = String(number * 100)
+            numLabelValue = numLabelValue / 100
         }
         
     }
@@ -46,6 +54,15 @@ class ViewController: UIViewController {
                 isFinishedTyping = false
             }
             else {
+                
+                if digit == "." {
+                    
+                    let isInt = floor(numLabelValue) == numLabelValue
+                    
+                    if !isInt {
+                        return
+                    }
+                }
                 numberLabel.text = numberLabel.text! + digit
             }
             
