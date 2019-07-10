@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var numberLabel: UILabel!
     
-    var isFinishedTyping = true
+    private var isFinishedTyping = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,18 +23,30 @@ class ViewController: UIViewController {
         
         isFinishedTyping = true
         
+        guard let number = Double(numberLabel.text!) else { fatalError("Invalid characters in label.") }
+        
+        if sender.currentTitle == "AC" {
+            numberLabel.text = "0"
+        }
+        else if sender.currentTitle == "+/−" {
+            numberLabel.text = String(number * -1)
+        }
+        else if sender.currentTitle == "%" {
+            numberLabel.text = String(number * 100)
+        }
+        
     }
     
     @IBAction func numberPressed(_ sender: UIButton) {
         
-        if let number = sender.currentTitle {
+        if let digit = sender.currentTitle {
             
             if isFinishedTyping {
-                numberLabel.text = number
+                numberLabel.text = digit
                 isFinishedTyping = false
             }
             else {
-                numberLabel.text = numberLabel.text! + number
+                numberLabel.text = numberLabel.text! + digit
             }
             
         }
