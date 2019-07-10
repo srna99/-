@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var numberLabel: UILabel!
     
+    private var calulator = CalculatorFunctions()
     private var isFinishedTyping = true
     
     private var numLabelValue : Double{
@@ -32,15 +33,14 @@ class ViewController: UIViewController {
     @IBAction func functionPressed(_ sender: UIButton) {
         
         isFinishedTyping = true
-
-        if sender.currentTitle == "AC" {
-            numberLabel.text = "0"
-        }
-        else if sender.currentTitle == "+/−" {
-            numLabelValue = numLabelValue * -1
-        }
-        else if sender.currentTitle == "%" {
-            numLabelValue = numLabelValue / 100
+        
+        if let symbol = sender.currentTitle {
+            
+            calulator.setNumber(numLabelValue)
+            
+            guard let result = calulator.calculate(symbol: symbol) else { fatalError() }
+            
+            numLabelValue = result
         }
         
     }
@@ -63,11 +63,10 @@ class ViewController: UIViewController {
                         return
                     }
                 }
+                
                 numberLabel.text = numberLabel.text! + digit
             }
-            
         }
-        
     }
 }
 
