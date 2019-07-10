@@ -38,9 +38,9 @@ class ViewController: UIViewController {
             
             calulator.setNumber(numLabelValue)
             
-            guard let result = calulator.calculate(symbol: symbol) else { fatalError() }
-            
-            numLabelValue = result
+            if let result = calulator.calculate(symbol: symbol) {
+                numLabelValue = result
+            }
         }
         
     }
@@ -56,7 +56,6 @@ class ViewController: UIViewController {
             else {
                 
                 if digit == "." {
-                    
                     let isInt = floor(numLabelValue) == numLabelValue
                     
                     if !isInt {
